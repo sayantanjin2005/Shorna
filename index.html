@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jannatul Fardous Shorna — Portfolio</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        ::selection {
+            background-color: #fde68a;
+            color: #92400e;
+        }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(2deg); }
+        }
+        @keyframes floatReverse {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(-2deg); }
+        }
+        @keyframes pulse-slow {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.05); }
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes typeWriter {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        .animate-float { animation: float 6s ease-in-out infinite; }
+        .animate-float-reverse { animation: floatReverse 5s ease-in-out infinite; }
+        .animate-pulse-slow { animation: pulse-slow 4s ease-in-out infinite; }
+        .animate-slide-up { animation: slideUp 0.8s ease-out forwards; }
+        .animate-fade-in { animation: fadeIn 1s ease-out forwards; }
+
+        .glass-input {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 12px;
+            padding: 14px 18px;
+            color: #fff;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            width: 100%;
+            outline: none;
+        }
+        .glass-input:focus {
+            border-color: #f59e0b;
+            background: rgba(255,255,255,0.08);
+            box-shadow: 0 0 0 3px rgba(245,158,11,0.15);
+        }
+        .glass-input::placeholder { color: rgba(255,255,255,0.4); }
+
+        .service-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+            border: 1px solid rgba(255,255,255,0.08);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 32px;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .service-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(245,158,11,0.3);
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.4), 0 0 40px rgba(245,158,11,0.08);
+        }
+
+        .tag-pill {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 9999px;
+            font-size: 13px;
+            font-weight: 500;
+            background: rgba(245,158,11,0.1);
+            color: #fbbf24;
+            border: 1px solid rgba(245,158,11,0.2);
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, #0c0a09 0%, #1c1917 40%, #292524 100%);
+        }
+
+        .section-dark {
+            background: linear-gradient(180deg, #0c0a09, #1c1917);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #d97706, #b45309);
+            color: #fff;
+            padding: 14px 32px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(217,119,6,0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #fbbf24;
+            padding: 14px 32px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 2px solid rgba(245,158,11,0.4);
+            cursor: pointer;
+        }
+        .btn-outline:hover {
+            background: rgba(245,158,11,0.1);
+            border-color: #f59e0b;
+            transform: translateY(-2px);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #d97706, #b45309);
+            color: #fff;
+            padding: 16px 28px;
+            border-radius: 14px;
+            font-weight: 500;
+            z-index: 9999;
+            transform: translateY(120px);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #1c1917; }
+        ::-webkit-scrollbar-thumb { background: #57534e; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #78716c; }
+    </style>
+</head>
+<body class="antialiased text-white">
+
+    <!-- ========== NAVIGATION ========== -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" style="background: rgba(12,10,9,0.85); backdrop-filter: blur(16px);">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <a href="#hero" class="flex items-center gap-2 group">
+                <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center font-bold text-sm text-white">ST</div>
+                <span class="text-lg font-semibold tracking-tight text-white">Jannatul<span class="text-amber-400">.</span></span>
+            </a>
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#hero" class="text-sm font-medium text-stone-400 hover:text-white transition-colors duration-200">Home</a>
+                <a href="#about" class="text-sm font-medium text-stone-400 hover:text-white transition-colors duration-200">About</a>
+                <a href="#services" class="text-sm font-medium text-stone-400 hover:text-white transition-colors duration-200">Services</a>
+                <a href="#contact" class="text-sm font-medium text-stone-400 hover:text-white transition-colors duration-200">Contact</a>
+            </div>
+            <a href="#contact" class="btn-primary text-sm !py-2.5 !px-5">
+                Get in touch
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </a>
+            <!-- Mobile menu button -->
+            <button id="mobileMenuBtn" class="md:hidden text-white">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+        <!-- Mobile menu -->
+        <div id="mobileMenu" class="hidden md:hidden px-6 pb-4">
+            <div class="flex flex-col gap-3">
+                <a href="#hero" class="text-sm font-medium text-stone-400 hover:text-white py-2">Home</a>
+                <a href="#about" class="text-sm font-medium text-stone-400 hover:text-white py-2">About</a>
+                <a href="#services" class="text-sm font-medium text-stone-400 hover:text-white py-2">Services</a>
+                <a href="#contact" class="text-sm font-medium text-stone-400 hover:text-white py-2">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ========== HERO SECTION ========== -->
+    <section id="hero" class="hero-gradient min-h-screen flex items-center relative overflow-hidden">
+        <!-- Decorative blurs -->
+        <div class="absolute top-20 right-20 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl animate-pulse-slow"></div>
+        <div class="absolute bottom-20 left-10 w-72 h-72 bg-amber-700/10 rounded-full blur-3xl animate-pulse-slow" style="animation-delay: 2s;"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-amber-600/5 rounded-full blur-3xl"></div>
+
+        <div class="max-w-7xl mx-auto px-6 w-full pt-24">
+            <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                <!-- Left: Text -->
+                <div class="relative z-10 order-2 lg:order-1">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500/10 border border-amber-500/20 mb-6 animate-slide-up">
+                        <span class="w-2 h-2 bg-amber-400 rounded-full animate-pulse"></span>
+                        <span class="text-amber-400 text-sm font-medium">Available for Freelance</span>
+                    </div>
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-semibold leading-[1.1] tracking-tight text-white mb-6 animate-slide-up" style="animation-delay: 0.1s;">
+                        Hi, I'm<br>
+                        <span class="bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 bg-clip-text text-transparent">Jannatul Fardous Shorna</span><br>
+                        Saleh<span class="text-amber-400">.</span>
+                    </h1>
+                    <p class="text-lg text-stone-400 leading-relaxed mb-8 max-w-lg animate-slide-up" style="animation-delay: 0.2s;">
+                        A passionate CSE student specializing in cybersecurity, web development, and creative design. Turning ideas into digital reality.
+                    </p>
+                    <div class="flex flex-wrap gap-4 mb-10 animate-slide-up" style="animation-delay: 0.3s;">
+                        <a href="#about" class="btn-primary">
+                            About me
+                            <i data-lucide="arrow-down-right" class="w-5 h-5"></i>
+                        </a>
+                        <a href="#contact" class="btn-outline">
+                            Get in touch
+                            <i data-lucide="send" class="w-5 h-5"></i>
+                        </a>
+                    </div>
+                    <div class="flex items-center gap-6 animate-slide-up" style="animation-delay: 0.4s;">
+                        <div class="flex -space-x-3">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 border-2 border-stone-900 flex items-center justify-center text-xs font-bold">5+</div>
+                        </div>
+                        <div>
+                            <p class="text-white font-semibold text-sm">Projects Completed</p>
+                            <div class="flex items-center gap-1">
+                                <i data-lucide="star" class="w-3.5 h-3.5 text-amber-400 fill-amber-400"></i>
+                                <i data-lucide="star" class="w-3.5 h-3.5 text-amber-400 fill-amber-400"></i>
+                                <i data-lucide="star" class="w-3.5 h-3.5 text-amber-400 fill-amber-400"></i>
+                                <i data-lucide="star" class="w-3.5 h-3.5 text-amber-400 fill-amber-400"></i>
+                                <i data-lucide="star" class="w-3.5 h-3.5 text-amber-400 fill-amber-400"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Photo -->
+                <div class="relative order-1 lg:order-2 flex justify-center lg:justify-end">
+                    <div class="relative">
+                        <!-- Decorative ring -->
+                        <div class="absolute -inset-4 rounded-3xl border border-amber-500/20 animate-pulse-slow"></div>
+                        <div class="absolute -inset-8 rounded-3xl border border-amber-500/10"></div>
+                        <!-- Photo container -->
+                        <div class="relative w-72 h-80 sm:w-80 sm:h-96 lg:w-96 lg:h-[460px] rounded-2xl overflow-hidden shadow-2xl">
+                            <img src="queen.jpg" alt="Jannatul Fardous Shorna" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-stone-950 via-transparent to-transparent"></div>
+                        </div>
+                        <!-- Floating badge 1 -->
+                        <div class="absolute -left-6 top-1/4 bg-stone-900/90 backdrop-blur-md border border-stone-700/50 rounded-xl px-4 py-3 shadow-xl animate-float">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-amber-500/20 rounded-lg flex items-center justify-center">
+                                    <i data-lucide="shield-check" class="w-5 h-5 text-amber-400"></i>
+                                </div>
+                                <div>
+                                    <p class="text-white font-semibold text-sm">Cybersecurity</p>
+                                    <p class="text-stone-400 text-xs">Expert</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Floating badge 2 -->
+                        <div class="absolute -right-4 bottom-1/4 bg-stone-900/90 backdrop-blur-md border border-stone-700/50 rounded-xl px-4 py-3 shadow-xl animate-float-reverse">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-amber-500/20 rounded-lg flex items-center justify-center">
+                                    <i data-lucide="code-2" class="w-5 h-5 text-amber-400"></i>
+                                </div>
+                                <div>
+                                    <p class="text-white font-semibold text-sm">Web Dev</p>
+                                    <p class="text-stone-400 text-xs">Specialist</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce">
+            <span class="text-stone-500 text-xs tracking-widest uppercase">Scroll</span>
+            <i data-lucide="chevron-down" class="w-4 h-4 text-stone-500"></i>
+        </div>
+    </section>
+
+    <!-- ========== ABOUT / MY STORY SECTION ========== -->
+    <section id="about" class="section-dark py-24 lg:py-32 relative overflow-hidden">
+        <!-- Decorative -->
+        <div class="absolute top-0 right-0 w-80 h-80 bg-amber-600/5 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 left-0 w-64 h-64 bg-amber-500/5 rounded-full blur-3xl"></div>
+
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <!-- Section label -->
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-8 h-[2px] bg-amber-500"></div>
+                <span class="text-amber-400 text-sm font-medium uppercase tracking-wider">About Me</span>
+            </div>
+            <h2 class="text-4xl lg:text-5xl font-semibold tracking-tight text-white mb-16">
+                My Story<span class="text-amber-400">.</span>
+            </h2>
+
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <!-- Left: Image with decorative elements -->
+                <div class="relative">
+                    <div class="relative rounded-2xl overflow-hidden shadow-2xl">
+                        <img src="wall.jpg" alt="Workspace" class="w-full aspect-[4/3] object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-stone-950/60 to-transparent"></div>
+                    </div>
+                    <!-- Stats overlay -->
+                    <div class="absolute -bottom-6 -right-6 bg-stone-900/95 backdrop-blur-md border border-stone-700/50 rounded-2xl p-6 shadow-2xl">
+                        <div class="grid grid-cols-2 gap-6">
+                            <div class="text-center">
+                                <p class="text-3xl font-semibold text-amber-400">5+</p>
+                                <p class="text-stone-400 text-xs mt-1">Projects</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-3xl font-semibold text-amber-400">3+</p>
+                                <p class="text-stone-400 text-xs mt-1">Services</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Coffee cup decorative element -->
+                    <div class="absolute -top-4 -left-4 w-16 h-16 bg-amber-500/10 rounded-2xl border border-amber-500/20 flex items-center justify-center animate-float">
+                        <i data-lucide="coffee" class="w-7 h-7 text-amber-400"></i>
+                    </div>
+                </div>
+
+                <!-- Right: Story content -->
+                <div>
+                    <h3 class="text-2xl font-semibold text-white mb-6">
+                        A passionate <span class="text-amber-400">CSE student</span> with a love for technology & security.
+                    </h3>
+                    <p class="text-stone-400 leading-relaxed mb-6">
+                        I'm Jannatul Fardous Shorna, a Computer Science & Engineering student who is deeply passionate about cybersecurity and web development. I believe in building digital experiences that are not only beautiful but also secure and functional.
+                    </p>
+                    <p class="text-stone-400 leading-relaxed mb-8">
+                        From exploring vulnerabilities in systems to crafting pixel-perfect websites, I bring a unique blend of security-first thinking and creative design to every project. My goal is to make the digital world safer, one project at a time.
+                    </p>
+
+                    <!-- Tags -->
+                    <div class="flex flex-wrap gap-3 mb-8">
+                        <span class="tag-pill">🔒 Cybersecurity</span>
+                        <span class="tag-pill">💻 Web Development</span>
+                        <span class="tag-pill">🎨 Web Design</span>
+                        <span class="tag-pill">🛡️ Penetration Testing</span>
+                        <span class="tag-pill">⚡ Frontend</span>
+                    </div>
+
+                    <a href="#services" class="btn-outline">
+                        View Services
+                        <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== SERVICES SECTION ========== -->
+    <section id="services" class="py-24 lg:py-32 relative overflow-hidden" style="background: linear-gradient(180deg, #1c1917, #0c0a09);">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-amber-600/3 rounded-full blur-3xl"></div>
+
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <!-- Section label -->
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-8 h-[2px] bg-amber-500"></div>
+                <span class="text-amber-400 text-sm font-medium uppercase tracking-wider">What I Do</span>
+            </div>
+            <h2 class="text-4xl lg:text-5xl font-semibold tracking-tight text-white mb-6">
+                My Services<span class="text-amber-400">.</span>
+            </h2>
+            <p class="text-stone-400 text-lg max-w-2xl mb-16">
+                I offer a range of services to help businesses and individuals establish a strong, secure, and visually appealing online presence.
+            </p>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Service 1: Cybersecurity -->
+                <div class="service-card group">
+                    <div class="w-14 h-14 bg-amber-500/10 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <i data-lucide="shield" class="w-7 h-7 text-amber-400"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-3 tracking-tight">Cybersecurity</h3>
+                    <p class="text-stone-400 leading-relaxed mb-6">
+                        Protecting digital assets with security audits, vulnerability assessments, and penetration testing. I help identify and fix security flaws before they become threats.
+                    </p>
+                    <div class="flex items-center gap-2 text-amber-400 font-medium text-sm group-hover:gap-3 transition-all duration-300">
+                        <span>Learn more</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </div>
+                </div>
+
+                <!-- Service 2: Web Development -->
+                <div class="service-card group">
+                    <div class="w-14 h-14 bg-amber-500/10 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <i data-lucide="code-2" class="w-7 h-7 text-amber-400"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-3 tracking-tight">Web Development</h3>
+                    <p class="text-stone-400 leading-relaxed mb-6">
+                        Building responsive, fast, and functional websites using modern technologies. From front-end magic to back-end logic, I deliver complete web solutions.
+                    </p>
+                    <div class="flex items-center gap-2 text-amber-400 font-medium text-sm group-hover:gap-3 transition-all duration-300">
+                        <span>Learn more</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </div>
+                </div>
+
+                <!-- Service 3: Web Design -->
+                <div class="service-card group">
+                    <div class="w-14 h-14 bg-amber-500/10 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <i data-lucide="palette" class="w-7 h-7 text-amber-400"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-3 tracking-tight">Web Design</h3>
+                    <p class="text-stone-400 leading-relaxed mb-6">
+                        Creating visually stunning and user-friendly designs that captivate audiences. Every pixel is crafted with purpose to deliver exceptional user experiences.
+                    </p>
+                    <div class="flex items-center gap-2 text-amber-400 font-medium text-sm group-hover:gap-3 transition-all duration-300">
+                        <span>Learn more</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== CONTACT SECTION ========== -->
+    <section id="contact" class="py-24 lg:py-32 relative overflow-hidden" style="background: linear-gradient(180deg, #0c0a09, #1c1917);">
+        <div class="absolute top-20 left-10 w-96 h-96 bg-amber-500/5 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-20 right-10 w-72 h-72 bg-amber-700/5 rounded-full blur-3xl"></div>
+
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <!-- Section label -->
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-8 h-[2px] bg-amber-500"></div>
+                <span class="text-amber-400 text-sm font-medium uppercase tracking-wider">Contact</span>
+            </div>
+            <h2 class="text-4xl lg:text-5xl font-semibold tracking-tight text-white mb-6">
+                Get in Touch<span class="text-amber-400">.</span>
+            </h2>
+            <p class="text-stone-400 text-lg max-w-2xl mb-16">
+                Have a project in mind or want to collaborate? Feel free to reach out. I'd love to hear from you!
+            </p>
+
+            <div class="grid lg:grid-cols-5 gap-12 lg:gap-16">
+                <!-- Left: Contact Info -->
+                <div class="lg:col-span-2 space-y-8">
+                    <!-- Email -->
+                    <div class="flex items-start gap-4 group">
+                        <div class="w-12 h-12 bg-amber-500/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                            <i data-lucide="mail" class="w-5 h-5 text-amber-400"></i>
+                        </div>
+                        <div>
+                            <p class="text-stone-400 text-sm mb-1">Email</p>
+                            <a href="mailto:jannatulshorna2510@gmail.com" class="text-white font-medium hover:text-amber-400 transition-colors">jannatulshorna2510@gmail.com</a>
+                        </div>
+                    </div>
+                    <!-- Phone -->
+                    <div class="flex items-start gap-4 group">
+                        <div class="w-12 h-12 bg-amber-500/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                            <i data-lucide="phone" class="w-5 h-5 text-amber-400"></i>
+                        </div>
+                        <div>
+                            <p class="text-stone-400 text-sm mb-1">Phone</p>
+                            <a href="tel:+8801XXXXXXXXX" class="text-white font-medium hover:text-amber-400 transition-colors">+880 1XXX-XXXXXX</a>
+                        </div>
+                    </div>
+                    <!-- Location -->
+                    <div class="flex items-start gap-4 group">
+                        <div class="w-12 h-12 bg-amber-500/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                            <i data-lucide="map-pin" class="w-5 h-5 text-amber-400"></i>
+                        </div>
+                        <div>
+                            <p class="text-stone-400 text-sm mb-1">Location</p>
+                            <p class="text-white font-medium">Bangladesh</p>
+                        </div>
+                    </div>
+
+                    <!-- Social Icons -->
+                    <div class="pt-6 border-t border-stone-800">
+                        <p class="text-stone-400 text-sm mb-4">Follow me</p>
+                        <div class="flex items-center gap-4">
+                            <a href="#" class="w-11 h-11 bg-stone-800/80 hover:bg-amber-500/20 border border-stone-700/50 hover:border-amber-500/30 rounded-xl flex items-center justify-center transition-all duration-300">
+                                <i data-lucide="github" class="w-5 h-5 text-stone-400 hover:text-amber-400"></i>
+                            </a>
+                            <a href="#" class="w-11 h-11 bg-stone-800/80 hover:bg-amber-500/20 border border-stone-700/50 hover:border-amber-500/30 rounded-xl flex items-center justify-center transition-all duration-300">
+                                <i data-lucide="linkedin" class="w-5 h-5 text-stone-400 hover:text-amber-400"></i>
+                            </a>
+                            <a href="#" class="w-11 h-11 bg-stone-800/80 hover:bg-amber-500/20 border border-stone-700/50 hover:border-amber-500/30 rounded-xl flex items-center justify-center transition-all duration-300">
+                                <i data-lucide="twitter" class="w-5 h-5 text-stone-400 hover:text-amber-400"></i>
+                            </a>
+                            <a href="#" class="w-11 h-11 bg-stone-800/80 hover:bg-amber-500/20 border border-stone-700/50 hover:border-amber-500/30 rounded-xl flex items-center justify-center transition-all duration-300">
+                                <i data-lucide="facebook" class="w-5 h-5 text-stone-400 hover:text-amber-400"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Decorative laptop illustration -->
+                    <div class="hidden lg:block relative mt-8">
+                        <div class="bg-stone-800/30 border border-stone-700/30 rounded-2xl p-6 backdrop-blur-sm">
+                            <div class="flex items-center gap-2 mb-4">
+                                <div class="w-3 h-3 rounded-full bg-red-500/60"></div>
+                                <div class="w-3 h-3 rounded-full bg-yellow-500/60"></div>
+                                <div class="w-3 h-3 rounded-full bg-green-500/60"></div>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="h-2 bg-amber-500/20 rounded w-3/4"></div>
+                                <div class="h-2 bg-stone-700/40 rounded w-full"></div>
+                                <div class="h-2 bg-stone-700/40 rounded w-5/6"></div>
+                                <div class="h-2 bg-amber-500/15 rounded w-2/3"></div>
+                            </div>
+                            <div class="mt-4 flex items-center gap-2">
+                                <span class="text-amber-400 text-xs font-mono">$</span>
+                                <span class="text-stone-500 text-xs font-mono">ready_to_collaborate</span>
+                                <span class="w-2 h-4 bg-amber-400 animate-pulse"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Contact Form -->
+                <div class="lg:col-span-3">
+                    <form id="contactForm" action="https://formsubmit.co/jannatulshorna2510@gmail.com" method="POST">
+                        <!-- FormSubmit configurations -->
+                        <input type="hidden" name="_subject" value="New Contact Form Submission — Shorna's Portfolio">
+                        <input type="hidden" name="_captcha" value="false">
+                        <input type="hidden" name="_template" value="box">
+                        <input type="text" name="_honey" style="display:none">
+
+                        <div class="space-y-6">
+                            <div class="grid sm:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="text-stone-300 text-sm font-medium mb-2 block">First Name</label>
+                                    <input type="text" name="first_name" placeholder="John" class="glass-input" required>
+                                </div>
+                                <div>
+                                    <label class="text-stone-300 text-sm font-medium mb-2 block">Last Name</label>
+                                    <input type="text" name="last_name" placeholder="Doe" class="glass-input" required>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="text-stone-300 text-sm font-medium mb-2 block">Email Address</label>
+                                <input type="email" name="email" placeholder="john@example.com" class="glass-input" required>
+                            </div>
+                            <div>
+                                <label class="text-stone-300 text-sm font-medium mb-2 block">Subject</label>
+                                <input type="text" name="subject" placeholder="Project Inquiry" class="glass-input" required>
+                            </div>
+                            <div>
+                                <label class="text-stone-300 text-sm font-medium mb-2 block">Message</label>
+                                <textarea name="message" rows="5" placeholder="Tell me about your project..." class="glass-input resize-none" required></textarea>
+                            </div>
+                            <button type="submit" class="btn-primary w-full justify-center text-center">
+                                <i data-lucide="send" class="w-5 h-5"></i>
+                                Send Message
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="border-t border-stone-800/50 py-8" style="background: #0c0a09;">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-2">
+                    <div class="w-7 h-7 rounded-md bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center font-bold text-xs text-white">ST</div>
+                    <span class="text-sm text-stone-500">© 2025 Jannatul Fardous Shorna. All rights reserved.</span>
+                </div>
+                <div class="flex items-center gap-6">
+                    <a href="#hero" class="text-stone-500 hover:text-white text-sm transition-colors">Home</a>
+                    <a href="#about" class="text-stone-500 hover:text-white text-sm transition-colors">About</a>
+                    <a href="#services" class="text-stone-500 hover:text-white text-sm transition-colors">Services</a>
+                    <a href="#contact" class="text-stone-500 hover:text-white text-sm transition-colors">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <div class="flex items-center gap-3">
+            <i data-lucide="check-circle" class="w-5 h-5"></i>
+            <span>Message sent successfully!</span>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        // Close mobile menu when a link is clicked
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.style.borderBottom = '1px solid rgba(68,64,60,0.3)';
+            } else {
+                navbar.style.borderBottom = 'none';
+            }
+        });
+
+        // Form submission with AJAX
+        const contactForm = document.getElementById('contactForm');
+        const toast = document.getElementById('toast');
+
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = new FormData(contactForm);
+            const submitBtn = contactForm.querySelector('button[type="submit"]');
+            const originalHTML = submitBtn.innerHTML;
+
+            // Loading state
+            submitBtn.innerHTML = `
+                <svg class="animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                </svg>
+                Sending...
+            `;
+            submitBtn.disabled = true;
+
+            fetch(contactForm.action, {
+                method: 'POST',
+                body: formData,
+                headers: { 'Accept': 'application/json' }
+            })
+            .then(response => {
+                if (response.ok) {
+                    showToast('Message sent successfully! I\'ll get back to you soon.');
+                    contactForm.reset();
+                } else {
+                    showToast('Something went wrong. Please try again.');
+                }
+            })
+            .catch(() => {
+                showToast('Network error. Please check your connection.');
+            })
+            .finally(() => {
+                submitBtn.innerHTML = originalHTML;
+                submitBtn.disabled = false;
+                lucide.createIcons();
+            });
+        });
+
+        function showToast(message) {
+            toast.querySelector('span').textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 4000);
+        }
+
+        // Scroll-triggered animations (Intersection Observer)
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.service-card').forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = `all 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.15}s`;
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
